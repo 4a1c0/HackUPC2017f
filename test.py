@@ -95,7 +95,7 @@ def incoming():
                 # of the text you want to recognize. You may need to wait or retry this GET operation.
 
                 print('\nHandwritten text submitted. Waiting 10 seconds to retrieve the recognized text.\n')
-                time.sleep(15)
+                time.sleep(10)
 
                 # Execute the second REST API call and get the response.
                 response = requests.request('GET', operationLocation, json=None, data=None, headers=requestHeaders, params=None)
