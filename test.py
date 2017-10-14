@@ -29,7 +29,7 @@ def incoming():
 
         if (len(request.form['attachments'])>0):
             image_url = image_url + "hi ha algo"
-            print equest.form['attachments']
+            print request.form['attachments']
 
         content = content.replace(u'%s %s' % (command, command_argument),
                                   u' [%s](%s)' % (command_argument, image_url))
