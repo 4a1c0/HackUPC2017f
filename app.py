@@ -33,49 +33,49 @@ def ms_integration(data, ms_params):
 
         img_data = thumbnail(data['comment']['attachments'][0]['image'], (3200, 3200))
 
-            try:
-                # This operation requrires two REST API calls. One to submit the image for processing,
-                # the other to retrieve the text found in the image. 
-                #
-                # This executes the first REST API call and gets the response.
-                response = requests.request('POST', ms_uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=ms_requestHeaders, params=ms_params)
+        try:
+            # This operation requrires two REST API calls. One to submit the image for processing,
+            # the other to retrieve the text found in the image. 
+            #
+            # This executes the first REST API call and gets the response.
+            response = requests.request('POST', ms_uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=ms_requestHeaders, params=ms_params)
 
-                # Success is indicated by a status of 202.
-                if response.status_code != 202:
-                    # if the first REST API call was not successful, display JSON data and exit.
-                    parsed = json.loads(response.text)
-                    print ("Error:")
-                    print (json.dumps(parsed, sort_keys=True, indent=2))
-                    if parsed['error']['code'] == 'InvalidImageDimension':
-                        exit()
-
-                # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
-                operationLocation = response.headers['Operation-Location']
-
-                # Note: The response may not be immediately available. Handwriting recognition is an
-                # async operation that can take a variable amount of time depending on the length
-                # of the text you want to recognize. You may need to wait or retry this GET operation.
-
-                #print('\nHandwritten text submitted. Waiting 10 seconds to retrieve the recognized text.\n')
-                time.sleep(10)
-
-                # Execute the second REST API call and get the response.
-                response = requests.request('GET', operationLocation, json=None, data=None, headers=ms_requestHeaders, params=None)
-
-                # 'data' contains the JSON data. The following formats the JSON data for display.
+            # Success is indicated by a status of 202.
+            if response.status_code != 202:
+                # if the first REST API call was not successful, display JSON data and exit.
                 parsed = json.loads(response.text)
+                print ("Error:")
+                print (json.dumps(parsed, sort_keys=True, indent=2))
+                if parsed['error']['code'] == 'InvalidImageDimension':
+                    exit()
 
-                # Generate the text of the message
-                for line in parsed['recognitionResult']['lines']:
-                    message = message + line['text'] + "\n"
-                # If empty message, can't read
-                if message == "":
-                    message = "Image can't be read"
+            # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
+            operationLocation = response.headers['Operation-Location']
+
+            # Note: The response may not be immediately available. Handwriting recognition is an
+            # async operation that can take a variable amount of time depending on the length
+            # of the text you want to recognize. You may need to wait or retry this GET operation.
+
+            #print('\nHandwritten text submitted. Waiting 10 seconds to retrieve the recognized text.\n')
+            time.sleep(10)
+
+            # Execute the second REST API call and get the response.
+            response = requests.request('GET', operationLocation, json=None, data=None, headers=ms_requestHeaders, params=None)
+
+            # 'data' contains the JSON data. The following formats the JSON data for display.
+            parsed = json.loads(response.text)
+
+            # Generate the text of the message
+            for line in parsed['recognitionResult']['lines']:
+                message = message + line['text'] + "\n"
+            # If empty message, can't read
+            if message == "":
+                message = "Image can't be read"
 
 
-            except Exception as e:
-                print('Error:')
-                print(e)
+        except Exception as e:
+            print('Error:')
+            print(e)
 
     except IndexError:
         message = " No image"
