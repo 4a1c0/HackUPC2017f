@@ -174,7 +174,7 @@ def transcribe():
         command_argument = request.form['command_argument']
         message = ms_integration_tr(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'}, 
-            params={'id': request.form['comment_id']}).json(), {'handwriting' : 'true'})  # obtenir el missatge per extreure la img i transcripció
+            params={'id': request.form['comment_id']}).json())  # obtenir el missatge per extreure la img i transcripció
 
     message = translation(message,command_argument)
 
