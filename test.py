@@ -36,8 +36,12 @@ def incoming():
         #image_url = image_url + "hi ha algo"
         appear_url =  'https://appear.in/%s' % command_argument
 
+        response = request.get("https://api.twistapp.com/api/v2/comments/getone?id=" + request.form['comment_id'], headers="Authorization: Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d").response
+
+        image_url = response.json()
+
         content = content.replace(u'%s %s' % (command, command_argument),
-                                  u'📹 [%s](%s)' % (command_argument, appear_url))
+                                  u'%s' % (image_url))
 
         return jsonify({
             'content': content,
