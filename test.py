@@ -57,7 +57,7 @@ def incoming():
         r = requests.get(url, headers=header, params=comment_id)
 
         message = "Transcribed text"
-        data = load.json(r)
+        data = r.json()
         image_url = data['image']
         print(image_url)
         '''
