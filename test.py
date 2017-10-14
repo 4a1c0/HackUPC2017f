@@ -13,8 +13,8 @@ import json
 
 app = Flask(__name__)
 
-subscription_key = '13hc77781f7e4b19b5fcdd72a8df7156' #Microsoft
-uri_base = 'westcentralus.api.cognitive.microsoft.com'
+subscription_key = '6d70c2eb9d0e466ba6b5275932e7e70f' #Microsoft
+uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
 requestHeaders = {
     # Request headers.
     # Another valid content type is "application/octet-stream".
