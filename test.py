@@ -96,7 +96,7 @@ def incoming():
             parsed = json.loads(response.text)
             print ("Response:")
             message = json.dumps(parsed, sort_keys=True, indent=2)
-            print (json.dumps(parsed, sort_keys=True, indent=2))
+            print (message)
 
         except Exception as e:
             print('Error:')
