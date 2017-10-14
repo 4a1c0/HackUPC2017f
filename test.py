@@ -9,7 +9,7 @@ from flask import jsonify
 from flask import request
 import requests
 import json
-import http.client, urllib.request, urllib.parse, urllib.urlopen, urllib.error, base64, requests, time
+import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
 
 
 app = Flask(__name__)
@@ -59,7 +59,7 @@ def incoming():
             # The URL of a JPEG image containing handwritten text.
             #body = {'url' : image_url}
 
-            body = urllib.urlopen(image_url).read()
+            body = urllib.request.urlopen(image_url).read()
 
             try:
                 # This operation requrires two REST API calls. One to submit the image for processing,
