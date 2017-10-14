@@ -4,6 +4,7 @@ Start video conversations from Twist by just typing `/appear room-name`
 """
 import os
 
+from googletrans import Translator
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -15,6 +16,17 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64, requests
 
 
 app = Flask(__name__)
+
+def translation(message,langCode):
+    if(langCode != "en"):
+        try:
+            trans = Translator()
+            message = trans.translate(message, dest=langCode).text
+        except Exception:
+            message+=("\n The language code is not recognised!")
+
+    return message
+
 
 def ms_integration_tr(data):
 
@@ -160,11 +172,13 @@ def transcribe():
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
     else:
-
+        command_argument = request.form['command_argument']
         message = ms_integration_tr(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'}, 
             params={'id': request.form['comment_id']}).json(), {'handwriting' : 'true'})  # obtenir el missatge per extreure la img i transcripció
-    
+
+    message = translation(message,command_argument)
+
     return jsonify({
         'content': message,
     })
@@ -177,11 +191,12 @@ def ocr():
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
     else:
+        command_argument = request.form['command_argument']
         message = ms_integration_ocr(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'},
             params={'id': request.form['comment_id']}).json())  # obtenir el missatge per extreure la img i OCR
 
-    print(message)
+    message = translation(message, command_argument)
 
     return jsonify({
         'content': message,
