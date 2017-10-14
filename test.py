@@ -91,7 +91,9 @@ def incoming():
                 parsed = json.loads(response.text)
                 print ("Response:")
                 print(json.dumps(parsed, sort_keys=True, indent=2))
-                message = parsed['recognitionResult']['lines'][0]['text']
+                message = ""
+                for line in parsed['recognitionResult']['lines']:
+                    message = message + line['text'] + "\n"
                 content = u'%s \n %s' % (message, image_url)
                 print (message)
 
