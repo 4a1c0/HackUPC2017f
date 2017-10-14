@@ -13,6 +13,8 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64, requests
 
 from PIL import Image
 from resizeimage import resizeimage
+from StringIO import StringIO
+from django.core.files.base import ContentFile
 
 app = Flask(__name__)
 
@@ -25,6 +27,17 @@ requestHeaders = {
     'Ocp-Apim-Subscription-Key': subscription_key,
 }
 
+
+def set_photo(self, url, filename):
+    image_request_result = requests.get(url)
+    image = Image.open(StringIO(image_request_result.content))
+    width, height = image.size
+    max_size = [200, 200]
+    if width > 200 or height > 200:
+        image.thumbnail(max_size)
+    image_io = StringIO()
+    image.save(image_io, format='JPEG')
+    self.photo.save(filename, ContentFile(image_io.getvalue()))
 
 
 @app.route('/transcribe/incoming', methods=['POST'])
@@ -61,12 +74,7 @@ def incoming():
         # The URL of a JPEG image containing handwritten text.
         #body = {'url' : image_url}
 
-
-
-        fd_img = open('image_url', 'r')
-        img = Image.open(fd_img)
-        img = resizeimage.resize_thumbnail(img, [3200, 3200])
-        body = img.read()
+        body = {set_photo(image_url, 3200)}
         
 
         try:
