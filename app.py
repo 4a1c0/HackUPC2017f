@@ -86,8 +86,7 @@ def ms_integration_tr(data):
 
 def ms_integration_ocr(data):
 
-    ms_subscription_key = '6d70c2eb9d0e466ba6b5275932e7e70f' #Microsoft Api
-    ms_uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
+    ms_subscription_key = 'd36ad8a50c0943bbbe839ff5ca6eb1bb' #Microsoft Api
     ms_requestHeaders = {
     # Request headers.
     # Another valid content type is "application/octet-stream".
@@ -113,14 +112,14 @@ def ms_integration_ocr(data):
             # This executes the first REST API call and gets the response.
 
             conn = http.client.HTTPSConnection('westcentralus.api.cognitive.microsoft.com')
-
-            conn.request("POST", ms_uri_base + '/vision/v1.0/ocr?%s' % ms_params, img_data, ms_requestHeaders)
+            conn.request("POST", '/vision/v1.0/ocr?%s' % ms_params, img_data, ms_requestHeaders)
             response = conn.getresponse()
-            # Success is indicated by a status of 202.
-
+            
             data = response.read()
             parsed = json.loads(data)
             
+            print ("Response:")
+            print (json.dumps(parsed, sort_keys=True, indent=2))
 
             # Generate the text of the message
             for region in parsed['regions']:
