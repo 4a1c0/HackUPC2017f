@@ -25,9 +25,9 @@ def incoming():
 
         command_argument = request.form['command_argument']
 
-        print "content: " + content
-        print "command: " + command
-        print "command_argument: " + command_argument
+        print ("content: " + content)
+        print ("command: " + command)
+        print ("command_argument: " + command_argument)
 
         image_url = command_argument
 
