@@ -23,9 +23,12 @@ def incoming():
         #image_url = "https://lh3.googleusercontent.com/GrgRpwI4qGXZNG3pra_JAgxB9TPGLrEoW7eng7AaatV9RVW_P8e9GeXjKQXv_2XKmSI"
         #image_url = request.form['image']
 
-        command_argument = request.form['image']
+        command_argument = request.form['command_argument']
 
         image_url = command_argument
+
+        if (request.form['attachment_id']):
+            command_argument = command_argument + "hi ha algo" + request.form['attachment_id']
 
         content = content.replace(u'%s %s' % (command, command_argument),
                                   u' [%s](%s)' % (command_argument, image_url))
