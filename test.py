@@ -77,7 +77,7 @@ def incoming():
                 # the other to retrieve the text found in the image. 
                 #
                 # This executes the first REST API call and gets the response.
-                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', data=nbody, headers=requestHeaders, params=params)
+                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', data=nbody.read(), headers=requestHeaders, params=params)
 
                 # Success is indicated by a status of 202.
                 if response.status_code != 202:
