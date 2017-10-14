@@ -32,7 +32,7 @@ def incoming():
         })
 @app.route('/', methods=['GET'])
 def conf():
-    return "Benvingut a l'integració"
+    return "Welcome to this integration"
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
