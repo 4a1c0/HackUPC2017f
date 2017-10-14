@@ -129,7 +129,7 @@ def ms_integration_ocr(data):
                         message = message + word['text'] + " "
                     message = message + "\n"
                 message = message + "\n\n"
-                
+
             # If empty message, can't read
             if message == "":
                 message = "Image can't be read"
@@ -181,6 +181,9 @@ def ocr():
         message = ms_integration(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'},
             params={'id': request.form['comment_id']}).json())  # obtenir el missatge per extreure la img i OCR
+
+    print(message)
+
     return jsonify({
         'content': message,
     })
