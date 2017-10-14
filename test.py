@@ -13,7 +13,7 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64, requests
 
 from PIL import Image
 from resizeimage import resizeimage
-from StringIO import StringIO
+from io import StringIO
 from django.core.files.base import ContentFile
 
 app = Flask(__name__)
@@ -30,12 +30,12 @@ requestHeaders = {
 
 def set_photo(self, url, filename):
     image_request_result = requests.get(url)
-    image = Image.open(StringIO(image_request_result.content))
+    image = Image.open(io.StringIO(image_request_result.content))
     width, height = image.size
     max_size = [200, 200]
     if width > 200 or height > 200:
         image.thumbnail(max_size)
-    image_io = StringIO()
+    image_io = io.StringIO()
     image.save(image_io, format='JPEG')
     self.photo.save(filename, ContentFile(image_io.getvalue()))
 
