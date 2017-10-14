@@ -29,7 +29,7 @@ def incoming():
         print ("command: " + command)
         print ("command_argument: " + command_argument)
 
-        image_url = command_argument
+        image_url = 'modificat %s' % command_argument
 
         #if (len(request.form['attachments'])>0):
         #image_url = image_url + "hi ha algo"
@@ -37,7 +37,7 @@ def incoming():
 
 
         content = content.replace(u'%s %s' % (command, command_argument),
-                                  u' [%s](%s)' % (command_argument, image_url))
+                                  u'lol [%s](%s)' % (command_argument, image_url))
 
         return jsonify({
             'content': content,
