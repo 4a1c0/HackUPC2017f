@@ -77,8 +77,8 @@ def ms_integration(data, ms_params):
                 print('Error:')
                 print(e)
 
-        except IndexError:
-            message = " No image"
+    except IndexError:
+        message = " No image"
 
 
     return message
