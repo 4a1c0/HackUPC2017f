@@ -91,7 +91,7 @@ def incoming():
             parsed = json.loads(response.text)
             print ("Response:")
             print(json.dumps(parsed, sort_keys=True, indent=2))
-            message = json['recognitionResult']['lines'][0]['text']
+            message = parsed['recognitionResult']['lines'][0]['text']
             content = content.replace(u'%s' % (command),
                                   u'%s %s' % (message, image_url))
             print (message)
