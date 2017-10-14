@@ -8,6 +8,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -31,8 +32,6 @@ def incoming():
         print ("command_argument: " + command_argument)
         print("comment_id:" + request.form['comment_id'])
 
-        image_url = 'modificat %s' % command_argument
-
         #if (len(request.form['attachments'])>0):
         #image_url = image_url + "hi ha algo"
         appear_url =  'https://appear.in/%s' % command_argument
@@ -43,11 +42,13 @@ def incoming():
 
         response = requests.get(url, headers=header, params=comment_id)
 
-        image_url = "The gameee"
-        print(response.text)
+        message = "Transcribed text"
+        data = load.json(response)
+        image_url = data['image']
+        print(image_url)
 
         content = content.replace(u'%s %s' % (command, command_argument),
-                                  u'%s' % (image_url))
+                                  u'%s' % (message))
 
         return jsonify({
             'content': content,
