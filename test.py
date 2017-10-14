@@ -8,6 +8,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from PIL import Image
+from io import BytesIO
 import requests
 import json
 import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
@@ -60,9 +61,9 @@ def incoming():
             # The URL of a JPEG image containing handwritten text.
             #body = {'url' : image_url}
 
-            body = urllib.request.urlopen(image_url).read()
-            im = Image.open(body)
-            im = im.thumbnail(3200, 3200)
+            body = requests.get(image_url)
+            img = Image.open(BytesIO(body.content))
+            img.thumbnail(3200, 3200)
             Image.save(body)
             Image.close()
 
