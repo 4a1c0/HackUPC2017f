@@ -62,7 +62,7 @@ def incoming():
             #body = {'url' : image_url}
 
             size = 3200, 3200
-
+            nbody = "tmp"
             body = requests.get(image_url)
             img = Image.open(BytesIO(body.content))
             img.thumbnail(size)
