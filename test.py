@@ -18,8 +18,14 @@ def incoming():
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
     else:
-        content = request.form['content']
+        content = request.form['content'] + "response"
         command = request.form['command']
+        if ((image_url = request.form['image']) != NULL):
+            return jsonify({
+            'content': content,
+            'image': image_url
+        })
+
         command_argument = request.form['command_argument']
 
         appear_url =  'https://appear.in/%s' % command_argument
