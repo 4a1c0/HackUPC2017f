@@ -61,9 +61,11 @@ def incoming():
             # The URL of a JPEG image containing handwritten text.
             #body = {'url' : image_url}
 
+            size = 3200, 3200
+
             body = requests.get(image_url)
             img = Image.open(BytesIO(body.content))
-            img.thumbnail(3200, 3200)
+            img.thumbnail(size)
             Image.save(body)
             Image.close()
 
