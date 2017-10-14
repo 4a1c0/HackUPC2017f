@@ -7,6 +7,7 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask import request
+from PIL import Image
 import requests
 import json
 import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
@@ -60,6 +61,11 @@ def incoming():
             #body = {'url' : image_url}
 
             body = urllib.request.urlopen(image_url).read()
+            im = Image.open(body)
+            im = im.thumbnail(3200, 3200)
+            Image.save(body)
+            Image.close()
+
 
             try:
                 # This operation requrires two REST API calls. One to submit the image for processing,
