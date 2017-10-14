@@ -59,7 +59,7 @@ def incoming():
         message = "Transcribed text"
         data = r.json()
         print(r.text)
-        image_url = data['attachments']['image']
+        image_url = data['comment']['attachments']['image']
         print(image_url)
         '''
         # The URL of a JPEG image containing handwritten text.
