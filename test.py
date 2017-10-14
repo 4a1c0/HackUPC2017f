@@ -11,7 +11,7 @@ from flask import request
 app = Flask(__name__)
 
 
-@app.route('/applet_appear/incoming', methods=['POST'])
+@app.route('/transcribe/incoming', methods=['POST'])
 def incoming():
     event_type = request.form['event_type']
 
@@ -27,17 +27,12 @@ def incoming():
 
         image_url = command_argument
 
-        if (request.form['attachment_id']):
-            command_argument = command_argument + "hi ha algo" + request.form['attachment_id']
+        if (len(request.form['attachments'])>0):
+            image_url = image_url + "hi ha algo"
+            print equest.form['attachments']
 
         content = content.replace(u'%s %s' % (command, command_argument),
                                   u' [%s](%s)' % (command_argument, image_url))
-
-        """if (image_url):
-            return jsonify({
-            'content': content,
-            'image': image_url
-        })"""
 
         return jsonify({
             'content': content,
