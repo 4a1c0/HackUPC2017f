@@ -49,7 +49,7 @@ def ms_integration_tr(data):
             # the other to retrieve the text found in the image. 
             #
             # This executes the first REST API call and gets the response.
-            response = requests.request('POST', ms_uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=ms_requestHeaders, params={'handwriting' : 'false'})
+            response = requests.request('POST', ms_uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=ms_requestHeaders, params={'handwriting' : 'true'})
 
             # Success is indicated by a status of 202.
             if response.status_code != 202:
