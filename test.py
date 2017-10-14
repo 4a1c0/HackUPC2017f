@@ -62,12 +62,13 @@ def incoming():
             #body = {'url' : image_url}
 
             size = 3200, 3200
-            nbody = "tmp"
+            nbody = 'tmp'
             body = requests.get(image_url)
             img = Image.open(BytesIO(body.content))
             img.thumbnail(size)
             img.save(nbody, "JPEG")
-            foto = open(nbody)
+            with open(nbody, 'rb') as f:
+                img_data = f.read()
 
             #body = Image.tobytes(encoder_name='raw')
             #img.close()
@@ -78,7 +79,7 @@ def incoming():
                 # the other to retrieve the text found in the image. 
                 #
                 # This executes the first REST API call and gets the response.
-                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', data=foto.read(), headers=requestHeaders, params=params)
+                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=requestHeaders, params=params)
 
                 # Success is indicated by a status of 202.
                 if response.status_code != 202:
