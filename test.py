@@ -91,14 +91,18 @@ def incoming():
             parsed = json.loads(response.text)
             print ("Response:")
             message = json.dumps(parsed, sort_keys=True, indent=2)
+            content = content.replace(u'%s %s' % (command, command_argument),
+                                  u'%s %s' % (message, image_url))
             print (message)
+
+            return jsonify({
+            'content': content,
+            })
 
         except Exception as e:
             print('Error:')
             print(e)
         
-        content = content.replace(u'%s %s' % (command, command_argument),
-                                  u'%s %s' % (message, image_url))
 
         return jsonify({
             'content': content,
