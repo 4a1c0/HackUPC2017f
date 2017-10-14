@@ -36,13 +36,13 @@ def incoming():
     else:
         content = request.form['content']
         command = request.form['command']
-        command_argument = request.form['command_argument']
+        #command_argument = request.form['command_argument']
 
         print("comment_id:" + request.form['comment_id'])
 
         #if (len(request.form['attachments'])>0):
         #image_url = image_url + "hi ha algo"
-        appear_url =  'https://appear.in/%s' % command_argument
+        #appear_url =  'https://appear.in/%s' % command_argument
 
         header = {'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'} 
         url = 'https://api.twistapp.com/api/v2/comments/getone'
@@ -92,7 +92,7 @@ def incoming():
             print ("Response:")
 
             message = json.dumps(parsed, sort_keys=True, indent=2)['recognitionResult']['lines'][0]['text']
-            content = content.replace(u'%s %s' % (command, command_argument),
+            content = content.replace(u'%s' % (command),
                                   u'%s %s' % (message, image_url))
             print (message)
 
