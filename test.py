@@ -64,10 +64,10 @@ def incoming():
             size = 3200, 3200
 
             body = requests.get(image_url)
-            img = Image.open(BytesIO(body.content))
-            img.thumbnail(size)
-            body = Image.tobytes(encoder_name='raw')
-            img.close()
+            #img = Image.open(BytesIO(body.content))
+            #img.thumbnail(size)
+            #body = Image.tobytes(encoder_name='raw')
+            #img.close()
 
 
             try:
