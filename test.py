@@ -36,10 +36,11 @@ def conf():
     URL d'inici = https://twist-transcribe.herokuapp.com/?install_id=30078&user_id=57010&post_data_url=https%3A%2F%2Ftwistapp.com%2Fapi%2Fv2%2Fintegration_incoming%2Fpost_data%3Finstall_id%3D30078%26install_token%3D30078_40c17672a965cca1dae424de0baac187&user_name=Pau+C.
 
     """
+    install = "hola"
 
     install = request.args.get['install_id']
-    user_id =request.args.get['user_id']
-    user_name =request.args.get['user_name']
+    user_id = request.args.get['user_id']
+    user_name = request.args.get['user_name']
     return "<h1>Welcome to this integration</h1>" + "<p>"+ install +"</p>"
 
 
