@@ -11,10 +11,6 @@ import requests
 import json
 import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
 
-from PIL import Image
-from resizeimage import resizeimage
-from io import StringIO
-from django.core.files.base import ContentFile
 
 app = Flask(__name__)
 
@@ -26,18 +22,6 @@ requestHeaders = {
     'Content-Type': 'application/json',
     'Ocp-Apim-Subscription-Key': subscription_key,
 }
-
-
-def set_photo(self, url, filename):
-    image_request_result = requests.get(url)
-    image = Image.open(io.StringIO(image_request_result.content))
-    width, height = image.size
-    max_size = [200, 200]
-    if width > 200 or height > 200:
-        image.thumbnail(max_size)
-    image_io = io.StringIO()
-    image.save(image_io, format='JPEG')
-    self.photo.save(filename, ContentFile(image_io.getvalue()))
 
 
 @app.route('/transcribe/incoming', methods=['POST'])
@@ -72,9 +56,9 @@ def incoming():
         print(image_url)
         
         # The URL of a JPEG image containing handwritten text.
-        #body = {'url' : image_url}
+        body = {'url' : image_url}
 
-        body = {set_photo(image_url, 3200)}
+
         
 
         try:
@@ -113,7 +97,6 @@ def incoming():
             content = u'%s \n %s' % (message, image_url)
             print (message)
 
-            fd_img.close()
 
             return jsonify({
             'content': content,
