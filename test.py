@@ -55,7 +55,7 @@ def incoming():
         message = "Transcribed text"
         data = r.json()
         print(r.text)
-        image_url = data['comment']['attachments'][0]['image'] + 
+        image_url = data['comment']['attachments'][0]['image']
         print(image_url)
         
         # The URL of a JPEG image containing handwritten text.
@@ -106,7 +106,7 @@ def incoming():
             print (message)
 
             fd_img.close()
-            
+
             return jsonify({
             'content': content,
             })
