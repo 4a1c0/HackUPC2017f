@@ -37,10 +37,11 @@ def incoming():
         #image_url = image_url + "hi ha algo"
         appear_url =  'https://appear.in/%s' % command_argument
 
-        header = {'Authorization': ' Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'} 
-        url = 'https://api.twistapp.com/api/v2/comments/getone?id=' + request.form['comment_id']
+        header = {'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'} 
+        url = 'https://api.twistapp.com/api/v2/comments/getone'
+        comment_id = {'id': 'request.form['comment_id']'}
 
-        response = requests.get(url, headers=header)
+        response = requests.get(url, headers=header, params=)
 
         image_url = "The gameee"
         print(response.text)
