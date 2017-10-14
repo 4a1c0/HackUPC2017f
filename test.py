@@ -52,60 +52,59 @@ def incoming():
         message = "Transcribed text"
         data = r.json()
         print(r.text)
-        image_url = data['comment']['attachments'][0]['image']
-        print(image_url)
-        
-        # The URL of a JPEG image containing handwritten text.
-        body = {'url' : image_url}
-
-
-        
-
         try:
-            # This operation requrires two REST API calls. One to submit the image for processing,
-            # the other to retrieve the text found in the image. 
-            #
-            # This executes the first REST API call and gets the response.
-            response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', json=body, data=None, headers=requestHeaders, params=params)
+            image_url = data['comment']['attachments'][0]['image']
+            print(image_url)
+            
+            # The URL of a JPEG image containing handwritten text.
+            body = {'url' : image_url}
 
-            # Success is indicated by a status of 202.
-            if response.status_code != 202:
-                # if the first REST API call was not successful, display JSON data and exit.
+            try:
+                # This operation requrires two REST API calls. One to submit the image for processing,
+                # the other to retrieve the text found in the image. 
+                #
+                # This executes the first REST API call and gets the response.
+                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', json=body, data=None, headers=requestHeaders, params=params)
+
+                # Success is indicated by a status of 202.
+                if response.status_code != 202:
+                    # if the first REST API call was not successful, display JSON data and exit.
+                    parsed = json.loads(response.text)
+                    print ("Error:")
+                    print (json.dumps(parsed, sort_keys=True, indent=2))
+                    exit()
+
+                # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
+                operationLocation = response.headers['Operation-Location']
+
+                # Note: The response may not be immediately available. Handwriting recognition is an
+                # async operation that can take a variable amount of time depending on the length
+                # of the text you want to recognize. You may need to wait or retry this GET operation.
+
+                print('\nHandwritten text submitted. Waiting 7 seconds to retrieve the recognized text.\n')
+                time.sleep(7)
+
+                # Execute the second REST API call and get the response.
+                response = requests.request('GET', operationLocation, json=None, data=None, headers=requestHeaders, params=None)
+
+                # 'data' contains the JSON data. The following formats the JSON data for display.
                 parsed = json.loads(response.text)
-                print ("Error:")
-                print (json.dumps(parsed, sort_keys=True, indent=2))
-                exit()
-
-            # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
-            operationLocation = response.headers['Operation-Location']
-
-            # Note: The response may not be immediately available. Handwriting recognition is an
-            # async operation that can take a variable amount of time depending on the length
-            # of the text you want to recognize. You may need to wait or retry this GET operation.
-
-            print('\nHandwritten text submitted. Waiting 7 seconds to retrieve the recognized text.\n')
-            time.sleep(7)
-
-            # Execute the second REST API call and get the response.
-            response = requests.request('GET', operationLocation, json=None, data=None, headers=requestHeaders, params=None)
-
-            # 'data' contains the JSON data. The following formats the JSON data for display.
-            parsed = json.loads(response.text)
-            print ("Response:")
-            print(json.dumps(parsed, sort_keys=True, indent=2))
-            message = parsed['recognitionResult']['lines'][0]['text']
-            content = u'%s \n %s' % (message, image_url)
-            print (message)
+                print ("Response:")
+                print(json.dumps(parsed, sort_keys=True, indent=2))
+                message = parsed['recognitionResult']['lines'][0]['text']
+                content = u'%s \n %s' % (message, image_url)
+                print (message)
 
 
-            return jsonify({
-            'content': content,
-            })
+                return jsonify({
+                'content': content,
+                })
 
-        except Exception as e:
-            print('Error:')
-            print(e)
-        
+            except Exception as e:
+                print('Error:')
+                print(e)
+        except IndexError:
+            content = " No images"
 
         return jsonify({
             'content': content,
