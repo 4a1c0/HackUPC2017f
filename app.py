@@ -29,7 +29,7 @@ def translation(message,langCode):
 
 def ms_integration_tr(data):
 
-    ms_subscription_key = '6d70c2eb9d0e466ba6b5275932e7e70f' #Microsoft Api
+    ms_subscription_key = 'd36ad8a50c0943bbbe839ff5ca6eb1bb' #Microsoft Api
     ms_uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
     ms_requestHeaders = {
     # Request headers.
