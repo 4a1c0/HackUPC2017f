@@ -64,8 +64,10 @@ def incoming():
             size = 3200, 3200
 
             body = requests.get(image_url)
-            #img = Image.open(BytesIO(body.content))
-            #img.thumbnail(size)
+            img = Image.open(BytesIO(body.content))
+            img.thumbnail(size)
+            img.save(body, "JPEG")
+
             #body = Image.tobytes(encoder_name='raw')
             #img.close()
 
@@ -111,7 +113,7 @@ def incoming():
                     message = message + line['text'] + "\n"
                 content = u'%s' % (message)
                 print (message)
-
+                img.close()
 
                 return jsonify({
                 'content': content,
