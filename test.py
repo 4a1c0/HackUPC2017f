@@ -111,6 +111,8 @@ def incoming():
                 for line in parsed['recognitionResult']['lines']:
                     message = message + line['text'] + "\n"
                 content = message
+                if message == "":
+                    message = "Image can't be read"
                 print (message)
 
 
