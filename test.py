@@ -20,12 +20,8 @@ def incoming():
     else:
         content = request.form['content'] + "response"
         command = request.form['command']
+        image_url = "https://lh3.googleusercontent.com/GrgRpwI4qGXZNG3pra_JAgxB9TPGLrEoW7eng7AaatV9RVW_P8e9GeXjKQXv_2XKmSI"
         image_url = request.form['image']
-        if (image_url != NULL):
-            return jsonify({
-            'content': content,
-            'image': image_url
-        })
 
         command_argument = request.form['command_argument']
 
@@ -33,6 +29,12 @@ def incoming():
 
         content = content.replace(u'%s %s' % (command, command_argument),
                                   u'📹 [%s](%s)' % (command_argument, appear_url))
+
+        if (image_url):
+            return jsonify({
+            'content': content,
+            'image': image_url
+        })
 
         return jsonify({
             'content': content,
