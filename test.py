@@ -9,7 +9,7 @@ from flask import jsonify
 from flask import request
 import requests
 import json
-##import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
+import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
 
 app = Flask(__name__)
 
@@ -37,8 +37,7 @@ def incoming():
         content = request.form['content']
         command = request.form['command']
         command_argument = request.form['command_argument']
-        #image_url = "https://lh3.googleusercontent.com/GrgRpwI4qGXZNG3pra_JAgxB9TPGLrEoW7eng7AaatV9RVW_P8e9GeXjKQXv_2XKmSI"
-        #image_url = request.form['image']
+
 
 
         print ("content: " + content)
@@ -61,7 +60,7 @@ def incoming():
         print(r.text)
         image_url = data['comment']['attachments'][0]['image']
         print(image_url)
-        '''
+        
         # The URL of a JPEG image containing handwritten text.
         body = {'url' : image_url}
 
@@ -96,12 +95,13 @@ def incoming():
             # 'data' contains the JSON data. The following formats the JSON data for display.
             parsed = json.loads(response.text)
             print ("Response:")
+            message = json.dumps(parsed, sort_keys=True, indent=2)
             print (json.dumps(parsed, sort_keys=True, indent=2))
 
         except Exception as e:
             print('Error:')
             print(e)
-        '''
+        
         content = content.replace(u'%s %s' % (command, command_argument),
                                   u'%s %s' % (message, image_url))
 
