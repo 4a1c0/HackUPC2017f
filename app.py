@@ -16,7 +16,7 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64, requests
 
 app = Flask(__name__)
 
-def ms_integration(data, ms_params):
+def ms_integration_tr(data):
 
     ms_subscription_key = '6d70c2eb9d0e466ba6b5275932e7e70f' #Microsoft Api
     ms_uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
@@ -38,7 +38,7 @@ def ms_integration(data, ms_params):
             # the other to retrieve the text found in the image. 
             #
             # This executes the first REST API call and gets the response.
-            response = requests.request('POST', ms_uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=ms_requestHeaders, params=ms_params)
+            response = requests.request('POST', ms_uri_base + '/vision/v1.0/RecognizeText', data=img_data, headers=ms_requestHeaders, params={'handwriting' : 'false'})
 
             # Success is indicated by a status of 202.
             if response.status_code != 202:
@@ -83,6 +83,68 @@ def ms_integration(data, ms_params):
 
     return message
 
+
+def ms_integration_ocr(data):
+
+    ms_subscription_key = '6d70c2eb9d0e466ba6b5275932e7e70f' #Microsoft Api
+    ms_uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
+    ms_requestHeaders = {
+    # Request headers.
+    # Another valid content type is "application/octet-stream".
+    'Content-Type': 'application/octet-stream',
+    'Ocp-Apim-Subscription-Key': ms_subscription_key,
+    }
+    ms_params = urllib.parse.urlencode({
+    # Request parameters. The language setting "unk" means automatically detect the language.
+    'language': 'unk',
+    'detectOrientation ': 'true',
+    })
+
+    message = ""
+
+    try:
+
+        img_data = thumbnail(data['comment']['attachments'][0]['image'], (3200, 3200))
+
+        try:
+            # This operation requrires two REST API calls. One to submit the image for processing,
+            # the other to retrieve the text found in the image. 
+            #
+            # This executes the first REST API call and gets the response.
+
+            conn = http.client.HTTPSConnection('westcentralus.api.cognitive.microsoft.com')
+
+            conn.request("POST", ms_uri_base + '/vision/v1.0/ocr?%s' % ms_params, img_data, ms_requestHeaders)
+            response = conn.getresponse()
+            # Success is indicated by a status of 202.
+
+            data = response.read()
+            parsed = json.loads(data)
+            
+
+            # Generate the text of the message
+            for region in parsed['regions']:
+                for line in region['lines']:
+                    for word in line['word']:
+                        message = message + word['text'] + " "
+                    message = message + "\n"
+                message = message + "\n\n"
+                
+            # If empty message, can't read
+            if message == "":
+                message = "Image can't be read"
+
+            conn.close()
+        except Exception as e:
+            print('Error:')
+            print(e)
+
+    except IndexError:
+        message = " No image"
+
+
+    return message
+
 def thumbnail(image_url, size):
     img = Image.open(BytesIO(requests.get(image_url).content))
     img.thumbnail(size)
@@ -100,7 +162,7 @@ def transcribe():
         return jsonify({'content': 'pong'})
     else:
 
-        message = ms_integration(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
+        message = ms_integration_tr(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'}, 
             params={'id': request.form['comment_id']}).json(), {'handwriting' : 'true'})  # obtenir el missatge per extreure la img i transcripció
     
@@ -118,7 +180,7 @@ def ocr():
     else:
         message = ms_integration(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'},
-            params={'id': request.form['comment_id']}).json(), {'handwriting' : 'false'})  # obtenir el missatge per extreure la img i OCR
+            params={'id': request.form['comment_id']}).json())  # obtenir el missatge per extreure la img i OCR
     return jsonify({
         'content': message,
     })
