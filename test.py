@@ -66,8 +66,8 @@ def incoming():
             body = requests.get(image_url)
             img = Image.open(BytesIO(body.content))
             img.thumbnail(size)
-            Image.save(body)
-            Image.close()
+            img.save(body)
+            img.close()
 
 
             try:
