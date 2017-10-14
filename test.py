@@ -51,7 +51,7 @@ def incoming():
 
         r = requests.get(url, headers=header, params=comment_id)
 
-        message = "Transcribed text"
+        message = ""
         data = r.json()
         print(r.text)
         try:
@@ -85,9 +85,6 @@ def incoming():
                     print ("Error:")
                     print (json.dumps(parsed, sort_keys=True, indent=2))
                     if parsed['error']['code'] == 'InvalidImageDimension':
-                        return jsonify({
-                                'content': 'The image is too big!',
-                            })
                     exit()
 
                 # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
@@ -107,7 +104,6 @@ def incoming():
                 parsed = json.loads(response.text)
                 print ("Response:")
                 print(json.dumps(parsed, sort_keys=True, indent=2))
-                message = ""
                 for line in parsed['recognitionResult']['lines']:
                     message = message + line['text'] + "\n"
                 content = message
