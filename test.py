@@ -59,19 +59,16 @@ def incoming():
             print(image_url)
             
             # The URL of a JPEG image containing handwritten text.
-            #body = {'url' : image_url}
 
             size = 3200, 3200
-            nbody = 'tmp'
+            
             body = requests.get(image_url)
             img = Image.open(BytesIO(body.content))
             img.thumbnail(size)
-            img.save(nbody, "JPEG")
-            with open(nbody, 'rb') as f:
+            img.save('tmp', "JPEG")
+            with open('tmp', 'rb') as f:
                 img_data = f.read()
 
-            #body = Image.tobytes(encoder_name='raw')
-            #img.close()
 
 
             try:
