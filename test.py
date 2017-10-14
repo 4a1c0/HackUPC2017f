@@ -110,9 +110,9 @@ def incoming():
                 message = ""
                 for line in parsed['recognitionResult']['lines']:
                     message = message + line['text'] + "\n"
-                content = u'%s' % (message)
+                content = message
                 print (message)
-                img.close()
+
 
                 return jsonify({
                 'content': content,
