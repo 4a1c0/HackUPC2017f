@@ -34,7 +34,6 @@ def incoming():
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
     else:
-        content = request.form['content']
         command = request.form['command']
         #command_argument = request.form['command_argument']
 
@@ -92,8 +91,7 @@ def incoming():
             print ("Response:")
             print(json.dumps(parsed, sort_keys=True, indent=2))
             message = parsed['recognitionResult']['lines'][0]['text']
-            content = content.replace(u'%s' % (command),
-                                  u'%s %s' % (message, image_url))
+            content = u'%s \n %s' % (message, image_url)
             print (message)
 
             return jsonify({
