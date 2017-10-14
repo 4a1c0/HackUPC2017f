@@ -32,7 +32,16 @@ def incoming():
         })
 @app.route('/', methods=['GET'])
 def conf():
-    return "<h1>Welcome to this integration<h1>"
+    """
+    URL d'inici = https://twist-transcribe.herokuapp.com/?install_id=30078&user_id=57010&post_data_url=https%3A%2F%2Ftwistapp.com%2Fapi%2Fv2%2Fintegration_incoming%2Fpost_data%3Finstall_id%3D30078%26install_token%3D30078_40c17672a965cca1dae424de0baac187&user_name=Pau+C.
+
+    """
+
+    install = request.form['install_id']
+    user_id =request.form['user_id']
+    user_name =request.form['user_name']
+    return "<h1>Welcome to this integration</h1>" + "<p>"+ install +"</p>"
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
