@@ -90,8 +90,8 @@ def incoming():
             # 'data' contains the JSON data. The following formats the JSON data for display.
             parsed = json.loads(response.text)
             print ("Response:")
-
-            message = json.dumps(parsed, sort_keys=True, indent=2)[0]['recognitionResult']['lines'][0]['text']
+            print(json.dumps(parsed, sort_keys=True, indent=2))
+            message = json['recognitionResult']['lines'][0]['text']
             content = content.replace(u'%s' % (command),
                                   u'%s %s' % (message, image_url))
             print (message)
