@@ -20,7 +20,8 @@ def incoming():
     else:
         content = request.form['content'] + "response"
         command = request.form['command']
-        if ((image_url = request.form['image']) != NULL):
+        image_url = request.form['image']
+        if (image_url != NULL):
             return jsonify({
             'content': content,
             'image': image_url
