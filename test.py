@@ -58,6 +58,7 @@ def incoming():
 
         message = "Transcribed text"
         data = r.json()
+        print(r.text)
         image_url = data['image']
         print(image_url)
         '''
