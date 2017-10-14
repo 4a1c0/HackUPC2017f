@@ -41,7 +41,7 @@ def incoming():
         url = 'https://api.twistapp.com/api/v2/comments/getone'
         comment_id = {'id': request.form['comment_id']}
 
-        response = requests.get(url, headers=header, params=)
+        response = requests.get(url, headers=header, params=comment_id)
 
         image_url = "The gameee"
         print(response.text)
