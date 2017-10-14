@@ -11,6 +11,9 @@ import requests
 import json
 import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
 
+from PIL import Image
+from resizeimage import resizeimage
+
 app = Flask(__name__)
 
 subscription_key = '6d70c2eb9d0e466ba6b5275932e7e70f' #Microsoft
@@ -52,11 +55,19 @@ def incoming():
         message = "Transcribed text"
         data = r.json()
         print(r.text)
-        image_url = data['comment']['attachments'][0]['image']
+        image_url = data['comment']['attachments'][0]['image'] + 
         print(image_url)
         
         # The URL of a JPEG image containing handwritten text.
-        body = {'url' : image_url}
+        #body = {'url' : image_url}
+
+
+
+        fd_img = open('image_url', 'r')
+        img = Image.open(fd_img)
+        img = resizeimage.resize_thumbnail(img, [3200, 3200])
+        body = img.read()
+        
 
         try:
             # This operation requrires two REST API calls. One to submit the image for processing,
@@ -80,8 +91,8 @@ def incoming():
             # async operation that can take a variable amount of time depending on the length
             # of the text you want to recognize. You may need to wait or retry this GET operation.
 
-            print('\nHandwritten text submitted. Waiting 10 seconds to retrieve the recognized text.\n')
-            time.sleep(10)
+            print('\nHandwritten text submitted. Waiting 7 seconds to retrieve the recognized text.\n')
+            time.sleep(7)
 
             # Execute the second REST API call and get the response.
             response = requests.request('GET', operationLocation, json=None, data=None, headers=requestHeaders, params=None)
@@ -94,6 +105,8 @@ def incoming():
             content = u'%s \n %s' % (message, image_url)
             print (message)
 
+            fd_img.close()
+            
             return jsonify({
             'content': content,
             })
