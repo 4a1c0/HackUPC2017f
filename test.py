@@ -53,10 +53,10 @@ def incoming():
 
         message = ""
         data = r.json()
-        print(r.text)
+
         try:
             image_url = data['comment']['attachments'][0]['image']
-            print(image_url)
+
             
             # The URL of a JPEG image containing handwritten text.
 
@@ -102,8 +102,8 @@ def incoming():
 
                 # 'data' contains the JSON data. The following formats the JSON data for display.
                 parsed = json.loads(response.text)
-                print ("Response:")
-                print(json.dumps(parsed, sort_keys=True, indent=2))
+
+                #print(json.dumps(parsed, sort_keys=True, indent=2))
                 for line in parsed['recognitionResult']['lines']:
                     message = message + line['text'] + "\n"
                 content = message
