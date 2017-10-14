@@ -9,7 +9,7 @@ from flask import jsonify
 from flask import request
 import requests
 import json
-import http.client, urllib.request, urllib.parse, urllib.error, base64, requests, time
+import http.client, urllib.request, urllib, urllib.error, base64, requests, time
 
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
 requestHeaders = {
     # Request headers.
     # Another valid content type is "application/octet-stream".
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/octet-stream',
     'Ocp-Apim-Subscription-Key': subscription_key,
 }
 
@@ -57,14 +57,16 @@ def incoming():
             print(image_url)
             
             # The URL of a JPEG image containing handwritten text.
-            body = {'url' : image_url}
+            #body = {'url' : image_url}
+
+            body = urllib.urlopen(image_url).read()
 
             try:
                 # This operation requrires two REST API calls. One to submit the image for processing,
                 # the other to retrieve the text found in the image. 
                 #
                 # This executes the first REST API call and gets the response.
-                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', json=body, data=None, headers=requestHeaders, params=params)
+                response = requests.request('POST', uri_base + '/vision/v1.0/RecognizeText', data=body, headers=requestHeaders, params=params)
 
                 # Success is indicated by a status of 202.
                 if response.status_code != 202:
