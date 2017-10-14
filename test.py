@@ -38,11 +38,12 @@ def incoming():
         appear_url =  'https://appear.in/%s' % command_argument
 
         header = {'Authorization': ' Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'} 
+        url = 'https://api.twistapp.com/api/v2/comments/getone?id=' + request.form['comment_id']
 
-        response = requests.get("https://api.twistapp.com/api/v2/comments/getone?id=" + request.form['comment_id'], headers=header).content
+        response = requests.get(url, headers=header)
 
         image_url = "The gameee"
-        print(response.json())
+        print(response.text)
 
         content = content.replace(u'%s %s' % (command, command_argument),
                                   u'%s' % (image_url))
