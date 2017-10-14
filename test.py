@@ -28,7 +28,7 @@ def incoming():
         print ("content: " + content)
         print ("command: " + command)
         print ("command_argument: " + command_argument)
-        print("img:" + request.form['attachments'])
+        print("comment_id:" + request.form['comment_id'])
 
         image_url = 'modificat %s' % command_argument
 
