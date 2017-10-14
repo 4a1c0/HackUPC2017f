@@ -38,11 +38,6 @@ def incoming():
         command = request.form['command']
         command_argument = request.form['command_argument']
 
-
-
-        print ("content: " + content)
-        print ("command: " + command)
-        print ("command_argument: " + command_argument)
         print("comment_id:" + request.form['comment_id'])
 
         #if (len(request.form['attachments'])>0):
