@@ -124,7 +124,7 @@ def ms_integration_ocr(data):
             # Generate the text of the message
             for region in parsed['regions']:
                 for line in region['lines']:
-                    for word in line['word']:
+                    for word in line['words']:
                         message = message + word['text'] + " "
                     message = message + "\n"
                 message = message + "\n\n"
