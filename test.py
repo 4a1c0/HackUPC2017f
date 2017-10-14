@@ -85,7 +85,7 @@ def incoming():
                     print ("Error:")
                     print (json.dumps(parsed, sort_keys=True, indent=2))
                     if parsed['error']['code'] == 'InvalidImageDimension':
-                    exit()
+                        exit()
 
                 # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
                 operationLocation = response.headers['Operation-Location']
