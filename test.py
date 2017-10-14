@@ -37,9 +37,9 @@ def conf():
 
     """
 
-    install = request.form['install_id']
-    user_id =request.form['user_id']
-    user_name =request.form['user_name']
+    install = request.args.get['install_id']
+    user_id =request.args.get['user_id']
+    user_name =request.args.get['user_name']
     return "<h1>Welcome to this integration</h1>" + "<p>"+ install +"</p>"
 
 
