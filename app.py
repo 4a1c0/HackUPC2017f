@@ -18,12 +18,11 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64, requests
 app = Flask(__name__)
 
 def translation(message,langCode):
-    if(langCode != "en"):
-        try:
-            trans = Translator()
-            message = trans.translate(message, dest=langCode).text
-        except Exception:
-            message+=("\n The language code is not recognised!")
+    try:
+        trans = Translator()
+        message = trans.translate(message, dest=langCode).text
+    except Exception:
+        message+=("\n The language code is not recognised!")
 
     return message
 
