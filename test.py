@@ -72,6 +72,10 @@ def incoming():
                     parsed = json.loads(response.text)
                     print ("Error:")
                     print (json.dumps(parsed, sort_keys=True, indent=2))
+                    if parsed['error']['code'] == 'InvalidImageDimension':
+                        return jsonify({
+                                'content': 'The image is too big!',
+                            })
                     exit()
 
                 # The 'Operation-Location' in the response contains the URI to retrieve the recognized text.
