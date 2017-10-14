@@ -106,7 +106,7 @@ def incoming():
                 print('Error:')
                 print(e)
         except IndexError:
-            content = " No images"
+            content = " No image"
 
         return jsonify({
             'content': content,
