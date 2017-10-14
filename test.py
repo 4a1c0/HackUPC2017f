@@ -39,7 +39,7 @@ def incoming():
 
         header = {'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'} 
         url = 'https://api.twistapp.com/api/v2/comments/getone'
-        comment_id = {'id': 'request.form['comment_id']'}
+        comment_id = {'id': request.form['comment_id']}
 
         response = requests.get(url, headers=header, params=)
 
