@@ -111,7 +111,7 @@ def transcribe():
 
 @app.route('/ocr/incoming', methods = ['POST'])
 def ocr():
-        event_type = request.form['event_type']
+    event_type = request.form['event_type']
 
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
