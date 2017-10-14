@@ -94,7 +94,7 @@ def incoming():
                 # async operation that can take a variable amount of time depending on the length
                 # of the text you want to recognize. You may need to wait or retry this GET operation.
 
-                print('\nHandwritten text submitted. Waiting 10 seconds to retrieve the recognized text.\n')
+                #print('\nHandwritten text submitted. Waiting 10 seconds to retrieve the recognized text.\n')
                 time.sleep(10)
 
                 # Execute the second REST API call and get the response.
