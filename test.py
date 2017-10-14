@@ -18,12 +18,12 @@ def incoming():
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
     else:
-        content = request.form['content'] 
+        content = request.form['content']
         command = request.form['command']
+        command_argument = request.form['command_argument']
         #image_url = "https://lh3.googleusercontent.com/GrgRpwI4qGXZNG3pra_JAgxB9TPGLrEoW7eng7AaatV9RVW_P8e9GeXjKQXv_2XKmSI"
         #image_url = request.form['image']
 
-        command_argument = request.form['command_argument']
 
         print ("content: " + content)
         print ("command: " + command)
@@ -33,15 +33,15 @@ def incoming():
 
         #if (len(request.form['attachments'])>0):
         #image_url = image_url + "hi ha algo"
-        print(request.form['attachments'])
-
+        appear_url =  'https://appear.in/%s' % command_argument
 
         content = content.replace(u'%s %s' % (command, command_argument),
-                                  u'lol [%s](%s)' % (command_argument, image_url))
+                                  u'📹 [%s](%s)' % (command_argument, appear_url))
 
         return jsonify({
             'content': content,
         })
+        
 @app.route('/config/')
 def conf():
     """
