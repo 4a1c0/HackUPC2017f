@@ -178,7 +178,7 @@ def ocr():
     if event_type == 'ping':
         return jsonify({'content': 'pong'})
     else:
-        message = ms_integration(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
+        message = ms_integration_ocr(requests.get('https://api.twistapp.com/api/v2/comments/getone', 
             headers={'Authorization': 'Bearer oauth2:4754b6fb12f8557221b9975701ca2f7b0432a23d'},
             params={'id': request.form['comment_id']}).json())  # obtenir el missatge per extreure la img i OCR
 
