@@ -28,6 +28,7 @@ def incoming():
         print ("content: " + content)
         print ("command: " + command)
         print ("command_argument: " + command_argument)
+        print("img:" + request.form['attachments'])
 
         image_url = 'modificat %s' % command_argument
 
@@ -41,7 +42,7 @@ def incoming():
         return jsonify({
             'content': content,
         })
-        
+
 @app.route('/config/')
 def conf():
     """
