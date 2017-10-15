@@ -207,10 +207,15 @@ def ocr():
 
 @app.route('/transcribe/config')
 @app.route('/ocr/config')
+def config():
+    user_name = request.args.get('user_name')
+    #return render_template('/web/index.html', name=user_name)
+    return "Hello"
+
 @app.route('/', methods=['GET'])
 def index():
-    user_name = request.args.get('user_name')
-    return render_template('/web/index.html', name=user_name)
+    
+    return render_template('web/index.html')
 
 
 if __name__ == '__main__':
