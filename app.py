@@ -210,7 +210,7 @@ def ocr():
 @app.route('/', methods=['GET'])
 def index():
     user_name = request.args.get('user_name')
-    return return render_template('web/index.html', name=user_name)
+    return render_template('web/index.html', name=user_name)
 
 
 if __name__ == '__main__':
