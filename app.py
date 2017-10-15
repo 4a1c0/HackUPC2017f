@@ -8,6 +8,7 @@ from googletrans import Translator
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import render_template
 from PIL import Image
 from io import BytesIO
 import requests
@@ -205,26 +206,11 @@ def ocr():
 
 
 @app.route('/transcribe/config')
-def transcribe_conf():
-    """
-    URL d'inici = https://twist-transcribe.herokuapp.com/?install_id=30078&user_id=57010&post_data_url=https%3A%2F%2Ftwistapp.com%2Fapi%2Fv2%2Fintegration_incoming%2Fpost_data%3Finstall_id%3D30078%26install_token%3D30078_40c17672a965cca1dae424de0baac187&user_name=Pau+C.
-
-    """
-    user_name = request.args.get('user_name')
-    return "<h1>Welcome to this integration</h1>" + "<p>"+ user_name +"</p>"
-
 @app.route('/ocr/config')
-def ocr_conf():
-    """
-    URL d'inici = https://twist-transcribe.herokuapp.com/?install_id=30078&user_id=57010&post_data_url=https%3A%2F%2Ftwistapp.com%2Fapi%2Fv2%2Fintegration_incoming%2Fpost_data%3Finstall_id%3D30078%26install_token%3D30078_40c17672a965cca1dae424de0baac187&user_name=Pau+C.
-
-    """
-    user_name = request.args.get('user_name')
-    return "<h1>Welcome to this integration</h1>" + "<p>"+ user_name +"</p>"
-
 @app.route('/', methods=['GET'])
 def index():
-    return "<h1>Welcome to this integration</h1>"
+    user_name = request.args.get('user_name')
+    return return render_template('web/index.html', name=user_name)
 
 
 if __name__ == '__main__':
