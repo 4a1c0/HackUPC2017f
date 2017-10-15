@@ -203,19 +203,19 @@ def ocr():
     return jsonify({
         'content': message,
     })
-
-
-@app.route('/transcribe/config')
-@app.route('/ocr/config')
+'''
 def config():
     user_name = request.args.get('user_name')
     #return render_template('/web/index.html', name=user_name)
     return "Hello"
+'''
 
+@app.route('/transcribe/config')
+@app.route('/ocr/config')
 @app.route('/', methods=['GET'])
 def index():
-    
-    return render_template('web/index.html')
+    user_name = request.args.get('user_name')
+    return render_template('index.html', name=user_name)
 
 
 if __name__ == '__main__':
